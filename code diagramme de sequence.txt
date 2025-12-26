@@ -1,0 +1,30 @@
+@startuml
+title GeneAnalyzer - Sequence Diagram (Analysis Only)
+
+actor User
+participant "Web Interface" as UI
+participant "GeneAnalyzer Engine" as Engine
+
+User -> UI : Enter DNA sequence
+User -> UI : Click "Analyze"
+
+UI -> Engine : Send DNA sequence
+
+Engine -> Engine : Validate DNA (A/T/G/C)
+Engine -> Engine : Calculate nucleotide percentages
+Engine -> Engine : Calculate GC Content
+Engine -> Engine : Calculate Melting Temperature
+Engine -> Engine : Generate Reverse Complement
+Engine -> Engine : Detect ORFs
+Engine -> Engine : Identify Start Codon (ATG)
+Engine -> Engine : Identify Stop Codons (TAA/TAG/TGA)
+Engine -> Engine : Translate DNA to Protein
+Engine -> Engine : Generate charts & statistics
+
+Engine -> UI : Return analysis results
+
+UI -> User : Display results
+UI -> User : Show charts and predicted protein
+UI -> User : Allow PDF report download
+
+@enduml
