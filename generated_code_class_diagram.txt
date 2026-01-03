@@ -1,0 +1,84 @@
+@startuml
+skinparam classAttributeIconSize 0
+top to bottom direction
+
+class DNASequence {
+  +sequence : String
+  +validate() : boolean
+  +getLenght() : int
+}
+
+class DNAAnalyzer {
+  +analyze(sequence : DNASequence) : AnalysisResult
+  +calculateATGC(sequence : DNASequence) : Map<char, float>
+  +calculateGCContent(sequence : DNASequence) : float
+  +calculateMeltingTemp(sequence : DNASequence) : float
+  +calculateMolecularWeight(sequence : DNASequence) : float
+  +getReverseComplement(sequence : DNASequence) : String
+  +findORFs() : List<ORF>
+  +translateToProtein(proteinSequence) : String
+}
+
+class CodonTable {
+  -table : Map<String, String>
+  +getAminoAcid(codon : String) : String
+}
+
+class ORF {
+  +startIndex : int
+  +endIndex : int
+  +proteinSequence : String
+}
+
+class AnalysisResult {
+  +basicInfo : BasicInfo
+  +composition : Composition
+  +physicoChemical : Physic
+  +genetic : Genetic
+}
+
+class BasicInfo {
+  +SequenceLenght : String
+}
+
+class Composition {
+  +APercentage : float
+  +TPercentage : float
+  +GPercentage : float
+  +CPercentage : float
+  +GC_Content : float
+  +stabilityLevel : String
+}
+
+class Physic {
+  +Tm : int
+  +Molecular_Weight : float
+}
+
+class Genetic {
+  -reverseComplement : String
+  -proteinSequence : String
+  -orfs : List<ORF>
+}
+
+class PDFReport {
+  +generateReport(result : AnalysisResult) : void
+}
+
+DNASequence -down-> DNAAnalyzer
+DNAAnalyzer -right-> CodonTable
+
+DNASequence *-down- ORF
+
+DNAAnalyzer ..down.> AnalysisResult : Use
+
+ORF o-right- AnalysisResult
+
+AnalysisResult *-right- BasicInfo
+AnalysisResult *-right- Composition
+AnalysisResult *-down- Physic
+AnalysisResult *-down- Genetic
+
+PDFReport ..up.> AnalysisResult : Use
+
+@enduml
